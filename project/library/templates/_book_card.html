@@ -1,0 +1,14 @@
+{% load static %}
+<article class="card">
+  <img class="card__cover" src="{% static 'img/cover.svg' %}" alt="Обложка книги «{{ book.title }}»" width="120" height="170" loading="{% if index > 4 %}lazy{% else %}eager{% endif %}">
+  <div class="card__body">
+    <p class="meta">{{ book.genre.name }}</p>
+    <h3><a href="{% url 'book_detail' book.pk %}">{{ book.title|truncatechars:40 }}</a></h3>
+    <p class="meta">{% for a in book.authors.all %}{{ a.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    {% if book.free > 0 %}
+      <span class="badge badge-success">Свободно {{ book.free }} из {{ book.total }}</span>
+    {% else %}
+      <span class="badge badge-warning">Все выданы</span>
+    {% endif %}
+  </div>
+</article>

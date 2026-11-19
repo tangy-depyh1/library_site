@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Поиск — Библиотека колледжа{% endblock %}
+{% block content %}
+<h1>Поиск по каталогу</h1>
+<form class="search-form panel" method="get" action="{% url 'search' %}">
+  <label class="visually-hidden" for="q">Автор или название</label>
+  <input class="input" id="q" name="q" type="search" value="{{ q }}" placeholder="Автор или название">
+  <button class="btn btn-primary" type="submit">Найти</button>
+</form>
+{% if page %}
+  <p class="meta">По запросу «{{ q }}» найдено: {{ page.paginator.count }}</p>
+  <div class="cards">
+    {% for book in page %}
+      {% include "_book_card.html" with book=book index=forloop.counter %}
+    {% empty %}
+      <p>Ничего не найдено. Проверьте написание или измените запрос.</p>
+    {% endfor %}
+  </div>
+  {% include "_pagination.html" %}
+{% elif q == "" %}
+  <p>Введите автора или название книги.</p>
+{% endif %}
+{% endblock %}

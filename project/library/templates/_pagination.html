@@ -1,0 +1,12 @@
+{% load library_extras %}
+{% if page.has_other_pages %}
+<nav class="pagination" aria-label="Страницы">
+  {% if page.has_previous %}<a href="?{% url_with_page page.previous_page_number %}" aria-label="Предыдущая">‹</a>{% endif %}
+  {% for n in page.paginator|elided:page.number %}
+    {% if n == page.paginator.ELLIPSIS %}<span>…</span>
+    {% elif n == page.number %}<span class="is-current" aria-current="page">{{ n }}</span>
+    {% else %}<a href="?{% url_with_page n %}">{{ n }}</a>{% endif %}
+  {% endfor %}
+  {% if page.has_next %}<a href="?{% url_with_page page.next_page_number %}" aria-label="Следующая">›</a>{% endif %}
+</nav>
+{% endif %}

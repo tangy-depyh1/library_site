@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ book.title }} — Библиотека колледжа{% endblock %}
+{% block content %}
+<nav class="meta" aria-label="Хлебные крошки">
+  <a href="{% url 'home' %}">Главная</a> / <a href="{% url 'catalog' %}">Каталог</a> / {{ book.title|truncatechars:40 }}
+</nav>
+<article class="book-page">
+  <img class="book-page__cover" src="{% static 'img/cover.svg' %}" alt="Обложка книги «{{ book.title }}»" width="220" height="311">
+  <div class="book-page__info">
+    <p class="meta">{{ book.genre.name }}</p>
+    <h1>{{ book.title }}</h1>
+    <p class="meta">{% for a in book.authors.all %}{{ a.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    {% if book.description %}<p>{{ book.description }}</p>{% endif %}
+    <dl class="kv">
+      <dt>Издательство</dt><dd>{{ book.publisher|default:"—" }}</dd>
+      <dt>Год издания</dt><dd>{{ book.year_published }}</dd>
+      <dt>Страниц</dt><dd>{{ book.pages|default:"—" }}</dd>
+      <dt>ISBN</dt><dd>{{ book.isbn|default:"—" }}</dd>
+      <dt>Добавлена в каталог</dt><dd>{{ book.created_at|date:"d.m.Y" }}</dd>
+    </dl>
+  </div>
+</article>
+<section class="panel">
+  <h2>Экземпляры</h2>
+  <p>
+    {% if book.free > 0 %}<span class="badge badge-success">Свободно {{ book.free }} из {{ book.total }}</span>
+    {% else %}<span class="badge badge-warning">Все выданы</span>{% endif %}
+  </p>
+  <div class="table-wrap">
+    <table class="stack">
+      <thead><tr><th>Инв. №</th><th>Статус</th><th>Состояние</th><th>Место</th></tr></thead>
+      <tbody>
+        {% for copy in copies %}
+          <tr>
+            <td data-label="Инв. №">{{ copy.inventory_number }}</td>
+            <td data-label="Статус">{{ copy.get_status_display }}</td>
+            <td data-label="Состояние">{{ copy.get_condition_display }}</td>
+            <td data-label="Место">{{ copy.shelf_location|default:"—" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

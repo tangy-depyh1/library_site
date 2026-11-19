@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Вход — Библиотека колледжа{% endblock %}
+{% block content %}
+<div class="auth-box">
+  <h1>Вход</h1>
+  <form class="panel" method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-error" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="field">
+      <label for="{{ form.username.id_for_label }}">Логин (reader_номер билета)</label>
+      {{ form.username }}
+      {% for e in form.username.errors %}<p class="error-text">{{ e }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      <label for="{{ form.password.id_for_label }}">Пароль</label>
+      {{ form.password }}
+      {% for e in form.password.errors %}<p class="error-text">{{ e }}</p>{% endfor %}
+    </div>
+    <button class="btn btn-primary" type="submit">Войти</button>
+  </form>
+  <p class="meta">Нет учётной записи? Обратитесь к библиотекарю.</p>
+</div>
+{% endblock %}

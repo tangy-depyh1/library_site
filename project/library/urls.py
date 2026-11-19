@@ -1,10 +1,16 @@
+from django.contrib.auth import views as auth_views
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
     path("catalog/", views.catalog, name="catalog"),
-    path("rules/", views.rules, name="rules"),
-    path("login/", views.login_page, name="login"),
+    path("catalog/book/<int:pk>/", views.book_detail, name="book_detail"),
+    path("search/", views.search, name="search"),
+    path("rules/", TemplateView.as_view(template_name="rules.html"), name="rules"),
+    path("login/", auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("cabinet/", views.cabinet, name="cabinet"),
 ]

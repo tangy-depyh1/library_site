@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Каталог — Библиотека колледжа{% endblock %}
+{% block content %}
+<h1>Каталог книг</h1>
+<div class="layout-2">
+  <aside class="layout-2__side">
+    <form class="panel" method="get" action="{% url 'catalog' %}">
+      <h2>Фильтры</h2>
+      <div class="field">
+        <label for="genre">Жанр</label>
+        <select class="select" id="genre" name="genre">
+          <option value="">Все жанры</option>
+          {% for g in genres %}
+            <option value="{{ g.pk }}"{% if genre == g.pk|stringformat:"s" %} selected{% endif %}>{{ g.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <label class="check"><input type="checkbox" name="free" value="1"{% if only_free %} checked{% endif %}>Только свободные</label>
+      <button class="btn btn-primary" type="submit">Применить</button>
+    </form>
+  </aside>
+  <section class="layout-2__main">
+    <p class="meta">Найдено книг: {{ page.paginator.count }}</p>
+    <div class="cards">
+      {% for book in page %}
+        {% include "_book_card.html" with book=book index=forloop.counter %}
+      {% empty %}
+        <p>По вашему запросу книг не найдено. Сбросьте фильтры.</p>
+      {% endfor %}
+    </div>
+    {% include "_pagination.html" %}
+  </section>
+</div>
+{% endblock %}

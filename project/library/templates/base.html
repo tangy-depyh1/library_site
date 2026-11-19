@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Библиотека колледжа{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="logo" href="{% url 'home' %}">Библиотека колледжа</a>
+      <nav class="nav" aria-label="Основное меню">
+        <a href="{% url 'catalog' %}">Каталог</a>
+        <a href="{% url 'rules' %}">Правила</a>
+      </nav>
+      <a class="btn btn-primary" href="{% url 'login' %}">Войти</a>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p>Библиотека колледжа. Читальный зал и абонемент.</p>
+      <p>Пн–Пт 8:00–18:00</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+:root {
+  --primary: #1E4B8F;
+  --primary-hover: #173B72;
+  --primary-soft: #E6EEF9;
+  --secondary: #256B5E;
+  --bg: #F5F6F8;
+  --surface: #FFFFFF;
+  --border: #D8DDE5;
+  --text: #1B2430;
+  --text-2: #4A5565;
+  --success: #1B6B3A;
+  --success-bg: #E5F4EA;
+  --warning: #7A4F00;
+  --warning-bg: #FFF3D1;
+  --radius: 8px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, Arial, sans-serif; font-size: 16px; line-height: 24px; color: var(--text); background: var(--bg); }
+h1, h2, h3 { font-family: Lora, Georgia, serif; margin: 0 0 var(--space-3); }
+h1 { font-size: 36px; line-height: 44px; }
+h2 { font-size: 28px; line-height: 36px; }
+h3 { font-size: 18px; line-height: 24px; }
+a { color: var(--primary); }
+.container { max-width: 1344px; margin: 0 auto; padding: 0 var(--space-8); }
+main { padding: var(--space-8) 0 64px; min-height: 60vh; }
+
+.site-header { background: var(--surface); border-bottom: 1px solid var(--border); }
+.header-row { display: flex; align-items: center; gap: var(--space-8); min-height: 72px; }
+.logo { font-family: Lora, Georgia, serif; font-weight: 700; font-size: 20px; text-decoration: none; }
+.nav { display: flex; gap: var(--space-2); flex: 1; }
+.nav a { padding: 8px 12px; border-radius: var(--radius); color: var(--text); text-decoration: none; font-weight: 500; }
+.nav a:hover { background: var(--primary-soft); color: var(--primary); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 20px; border-radius: var(--radius); font-weight: 600; text-decoration: none; border: 2px solid transparent; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); color: #fff; }
+
+.site-footer { background: #1B2430; color: #fff; padding: var(--space-8) 0; font-size: 14px; }
+.footer-row { display: flex; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; }
+.footer-row p { margin: 0; }

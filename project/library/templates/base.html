@@ -16,12 +16,24 @@
 <body>
     <header class="site-header">
         <div class="container header-row">
-            <a class="logo" href="{% url 'home' %}">Библиотека колледжа</a>
-            <nav class="nav" aria-label="Основное меню">
-                <a href="{% url 'catalog' %}">Каталог</a>
-                <a href="{% url 'rules' %}">Правила</a>
+            <a class="logo" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.svg' %}" alt="" width="36" height="36">
+                <span>Библиотека колледжа</span>
+            </a>
+            <nav class="nav" id="main-nav" aria-label="Основное меню">
+                {% for item in nav_items %}
+                <a href="{% url item.name %}" {% if item.active %} aria-current="page" {% endif %}>{{ item.title }}</a>
+                {% endfor %}
             </nav>
-            <a class="btn btn-primary" href="{% url 'login' %}">Войти</a>
+            <div class="header-actions">
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-secondary"
+                        type="submit">Выйти</button></form>
+                {% else %}
+                <a class="btn btn-primary" href="{% url 'login' %}">Войти</a>
+                {% endif %}
+            </div>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Меню</button>
         </div>
     </header>
     <main>
@@ -35,6 +47,7 @@
             <p>Пн–Пт 8:00–18:00</p>
         </div>
     </footer>
+    <script src="{% static 'js/menu.js' %}" defer></script>
 </body>
 
 </html>

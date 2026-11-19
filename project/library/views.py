@@ -12,6 +12,7 @@ from .forms import ContactForm
 from .forms import ProfileForm
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from django.urls import reverse
 
 
 
@@ -171,3 +172,22 @@ def favorites(request):
         return render(request, "cabinet_no_reader.html", status=403)
     qs = books_qs().filter(pk__in=reader.favorites.values("book_id")).order_by("title")
     return render(request, "favorites.html", {"books": qs})
+    
+
+
+def api_search(request):
+    text = request.GET.get("q", "").strip()
+    if len(text) < 2:
+        return JsonResponse({"results": []})
+    qs = filter_by_text(books_qs(), text).order_by("title")[:8]
+    results = [
+        {
+            "id": b.pk,
+            "title": b.title,
+            "authors": ", ".join(a.short_name for a in b.authors.all()),
+            "free": b.free,
+            "url": reverse("book_detail", args=[b.pk]),
+        }
+        for b in qs
+    ]
+    return JsonResponse({"results": results})

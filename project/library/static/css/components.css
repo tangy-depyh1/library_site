@@ -60,3 +60,9 @@ textarea.input { min-height: 120px; resize: vertical; }
 .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-4) 0; }
 .btn[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
 .btn:disabled { background: var(--dis-bg); color: var(--dis-text); border-color: var(--dis-bg); cursor: not-allowed; }
+.live { position: relative; flex: 1; }
+.live-results { position: absolute; z-index: 10; top: calc(100% + 4px); left: 0; right: 0; margin: 0; padding: 4px; list-style: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 8px 24px rgba(27, 36, 48, .15); }
+.live-results a { display: block; padding: 10px 12px; border-radius: var(--radius); color: var(--text); text-decoration: none; }
+.live-results a:hover, .live-results a:focus { background: var(--primary-soft); }
+.live-results strong { display: block; }
+.live-results__note { padding: 10px 12px; color: var(--text-2); }

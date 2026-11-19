@@ -18,5 +18,6 @@ urlpatterns = [
     path("cabinet/", views.cabinet, name="cabinet"),
     path("cabinet/favorites/", views.favorites, name="favorites"),
     path("cabinet/profile/", views.profile, name="profile"),
+    path("api/books/", views.api_search, name="api_search"),
     path("login/", auth_views.LoginView.as_view(template_name="registration/login.html", authentication_form=LoginForm), name="login"),
 ]

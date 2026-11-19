@@ -3,8 +3,11 @@
 {% block content %}
 <h1>Каталог книг</h1>
 <form class="search-form search-form--page" method="get" action="{% url 'search' %}">
-  <label class="visually-hidden" for="q">Автор или название книги</label>
-  <input class="input" id="q" name="q" type="search" placeholder="Автор или название">
+  <div class="live">
+    <label class="visually-hidden" for="q">Автор или название книги</label>
+    <input class="input" id="q" name="q" type="search" autocomplete="off" placeholder="Автор или название" data-live-url="{% url 'api_search' %}">
+    <ul class="live-results" id="live-results" hidden></ul>
+  </div>
   <button class="btn btn-primary" type="submit">Найти</button>
 </form>
 <div class="layout-2">

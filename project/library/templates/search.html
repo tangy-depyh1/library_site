@@ -2,9 +2,12 @@
 {% block title %}Поиск — Библиотека колледжа{% endblock %}
 {% block content %}
 <h1>Поиск по каталогу</h1>
-<form class="search-form panel" method="get" action="{% url 'search' %}">
-  <label class="visually-hidden" for="q">Автор или название</label>
-  <input class="input" id="q" name="q" type="search" value="{{ q }}" placeholder="Автор или название">
+<form class="search-form search-form--page" method="get" action="{% url 'search' %}">
+  <div class="live">
+    <label class="visually-hidden" for="q">Автор или название книги</label>
+    <input value="{{ q }}" class="input"  name="q" type="search" autocomplete="off" placeholder="Автор или название" data-live-url="{% url 'api_search' %}">
+    <ul class="live-results" id="live-results" hidden></ul>
+  </div>
   <button class="btn btn-primary" type="submit">Найти</button>
 </form>
 {% if page %}

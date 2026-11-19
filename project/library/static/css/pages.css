@@ -23,3 +23,5 @@
   .kv { grid-template-columns: 120px 1fr; }
   .tile strong { font-size: 26px; line-height: 32px; }
 }
+.search-form--page { max-width: none; margin: 0 0 var(--space-6); }
+.search-form--page .input { border: 1px solid var(--border-strong); }

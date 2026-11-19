@@ -2,6 +2,11 @@
 {% block title %}Каталог — Библиотека колледжа{% endblock %}
 {% block content %}
 <h1>Каталог книг</h1>
+<form class="search-form search-form--page" method="get" action="{% url 'search' %}">
+  <label class="visually-hidden" for="q">Автор или название книги</label>
+  <input class="input" id="q" name="q" type="search" placeholder="Автор или название">
+  <button class="btn btn-primary" type="submit">Найти</button>
+</form>
 <div class="layout-2">
   <aside class="layout-2__side">
     <form class="panel" method="get" action="{% url 'catalog' %}">

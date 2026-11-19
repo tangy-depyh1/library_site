@@ -3,7 +3,7 @@
 <section class="hero">
   <h1>Найдите книгу в каталоге библиотеки</h1>
   <p>Проверьте, свободна ли книга, забронируйте её и следите за сроками возврата в личном кабинете.</p>
-  <form class="search-form" action="{% url 'catalog' %}" method="get">
+  <form class="search-form" action="{% url 'search' %}" method="get">
     <label class="visually-hidden" for="q">Автор или название книги</label>
     <input class="input" id="q" name="q" type="search" placeholder="Автор или название книги">
     <button class="btn btn-accent" type="submit">Найти</button>

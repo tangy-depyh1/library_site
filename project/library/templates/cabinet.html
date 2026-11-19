@@ -2,6 +2,7 @@
 {% block title %}Личный кабинет — Библиотека колледжа{% endblock %}
 {% block content %}
 <h1>Личный кабинет</h1>
+<p><a href="{% url 'profile' %}">Изменить контакты</a> · <a href="{% url 'favorites' %}">Избранное</a></p>
 <p class="meta">{{ reader.full_name }}, билет {{ reader.card_number }}</p>
 {% if reader.is_blocked %}
   <div class="alert alert-error" role="alert"><strong>Выдача заблокирована.</strong> {{ reader.block_reason }}</div>

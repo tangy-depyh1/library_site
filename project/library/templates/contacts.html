@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Контакты — Библиотека колледжа{% endblock %}
+{% block content %}
+<h1>Контакты</h1>
+<div class="layout-2">
+  <section class="layout-2__main">
+    <form class="panel" method="post" novalidate data-validate>
+      {% csrf_token %}
+      <h2>Вопрос библиотекарю</h2>
+      {% if form.non_field_errors %}<div class="alert alert-error" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+      {% include "_field.html" with field=form.name %}
+      {% include "_field.html" with field=form.email %}
+      {% include "_field.html" with field=form.phone %}
+      {% include "_field.html" with field=form.message %}
+      <button class="btn btn-primary" type="submit">Отправить</button>
+    </form>
+  </section>
+  <aside class="layout-2__side">
+    <div class="panel">
+      <h2>Часы работы</h2>
+      <p>Пн–Пт 8:00–18:00<br>Сб, Вс — выходной</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

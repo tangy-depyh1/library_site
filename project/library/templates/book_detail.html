@@ -6,19 +6,41 @@
   <a href="{% url 'home' %}">Главная</a> / <a href="{% url 'catalog' %}">Каталог</a> / {{ book.title|truncatechars:40 }}
 </nav>
 <article class="book-page">
-  <img class="book-page__cover" src="{% static 'img/cover.svg' %}" alt="Обложка книги «{{ book.title }}»" width="220" height="311">
+  <img class="book-page__cover" src="{% static 'img/cover.svg' %}" alt="Обложка книги «{{ book.title }}»" width="220"
+    height="311">
   <div class="book-page__info">
     <p class="meta">{{ book.genre.name }}</p>
     <h1>{{ book.title }}</h1>
-    <p class="meta">{% for a in book.authors.all %}{{ a.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    <p class="meta">{% for a in book.authors.all %}{{ a.short_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+    </p>
     {% if book.description %}<p>{{ book.description }}</p>{% endif %}
     <dl class="kv">
-      <dt>Издательство</dt><dd>{{ book.publisher|default:"—" }}</dd>
-      <dt>Год издания</dt><dd>{{ book.year_published }}</dd>
-      <dt>Страниц</dt><dd>{{ book.pages|default:"—" }}</dd>
-      <dt>ISBN</dt><dd>{{ book.isbn|default:"—" }}</dd>
-      <dt>Добавлена в каталог</dt><dd>{{ book.created_at|date:"d.m.Y" }}</dd>
+      <dt>Издательство</dt>
+      <dd>{{ book.publisher|default:"—" }}</dd>
+      <dt>Год издания</dt>
+      <dd>{{ book.year_published }}</dd>
+      <dt>Страниц</dt>
+      <dd>{{ book.pages|default:"—" }}</dd>
+      <dt>ISBN</dt>
+      <dd>{{ book.isbn|default:"—" }}</dd>
+      <dt>Добавлена в каталог</dt>
+      <dd>{{ book.created_at|date:"d.m.Y" }}</dd>
     </dl>
+    {% if user.is_authenticated %}
+    <div class="actions">
+      <button class="btn btn-secondary" type="button" id="favorite-btn"  data-url="{% url 'favorite_toggle' book.pk %}"
+        aria-pressed="{% if is_favorite %}true{% else %}false{% endif %}"><span data-label>{% if is_favorite %}В
+          избранном{% else %}В избранное{% endif %}</span></button>
+      {% if book.free == 0 %}
+      <form method="post" action="{% url 'reserve' book.pk %}">{% csrf_token %}<button class="btn btn-primary"
+          type="submit">Забронировать</button></form>
+      {% endif %}
+    </div>
+    <p class="meta" id="favorite-status" role="status"></p>
+    {% else %}
+    <p class="meta"><a href="{% url 'login' %}?next={{ request.path }}">Войдите</a>, чтобы добавить книгу в избранное
+      или забронировать.</p>
+    {% endif %}
   </div>
 </article>
 <section class="panel">
@@ -29,15 +51,22 @@
   </p>
   <div class="table-wrap">
     <table class="stack">
-      <thead><tr><th>Инв. №</th><th>Статус</th><th>Состояние</th><th>Место</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Инв. №</th>
+          <th>Статус</th>
+          <th>Состояние</th>
+          <th>Место</th>
+        </tr>
+      </thead>
       <tbody>
         {% for copy in copies %}
-          <tr>
-            <td data-label="Инв. №">{{ copy.inventory_number }}</td>
-            <td data-label="Статус">{{ copy.get_status_display }}</td>
-            <td data-label="Состояние">{{ copy.get_condition_display }}</td>
-            <td data-label="Место">{{ copy.shelf_location|default:"—" }}</td>
-          </tr>
+        <tr>
+          <td data-label="Инв. №">{{ copy.inventory_number }}</td>
+          <td data-label="Статус">{{ copy.get_status_display }}</td>
+          <td data-label="Состояние">{{ copy.get_condition_display }}</td>
+          <td data-label="Место">{{ copy.shelf_location|default:"—" }}</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>

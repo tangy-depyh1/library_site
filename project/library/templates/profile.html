@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Профиль — Библиотека колледжа{% endblock %}
+{% block content %}
+<h1>Профиль читателя</h1>
+<p class="meta">{{ reader.full_name }}, билет {{ reader.card_number }}</p>
+<form class="panel auth-box" method="post" novalidate data-validate>
+  {% csrf_token %}
+  {% include "_field.html" with field=form.phone %}
+  {% include "_field.html" with field=form.email %}
+  <button class="btn btn-primary" type="submit">Сохранить</button>
+</form>
+{% endblock %}

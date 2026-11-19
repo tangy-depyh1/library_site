@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Избранное — Библиотека колледжа{% endblock %}
+{% block content %}
+<h1>Избранное</h1>
+<h2 class="visually-hidden">Список избранных книг</h2>
+<div class="cards">
+  {% for book in books %}
+    {% include "_book_card.html" with book=book index=forloop.counter %}
+  {% empty %}
+    <p>В избранном пока ничего нет. Добавьте книгу на её странице.</p>
+  {% endfor %}
+</div>
+{% endblock %}

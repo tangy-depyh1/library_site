@@ -1,0 +1,82 @@
+Found 32 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, auth, contenttypes, library, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying library.0001_initial... OK
+  Applying library.0002_remove_author_unique_author_and_more... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001220-906546.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001220-972291.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001220-978009.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001220-989314.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001220-993829.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001220-999976.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001221-004727.sqlite3
+Database backup created: C:\Users\Serge\AppData\Local\Temp\tmp7mtdm__o\library-20261125-001221-011070.sqlite3
+Готово: genre=8, author=59, book=18, bookauthor=18, copy=57, reader=1, staff=3, settings=1, reservation=14, loan=42, renewal=5, fine=7, notification=5, favorite=4
+Created 1 due-date reminder(s).
+Created 0 due-date reminder(s).
+Expired 1 reservation(s).
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+test_authors_without_birth_year_are_unique (library.test_author_constraints.AuthorUniquenessTests.test_authors_without_birth_year_are_unique) ... ok
+test_backup_is_valid_and_rotation_keeps_seven (library.test_backup_db.DatabaseBackupCommandTests.test_backup_is_valid_and_rotation_keeps_seven) ... ok
+test_isbn_is_displayed_without_hyphens (library.test_book_detail.BookDetailTests.test_isbn_is_displayed_without_hyphens) ... ok
+test_author_filter_combines_with_genre_and_free_filters (library.test_catalog_filters.CatalogAuthorFilterTests.test_author_filter_combines_with_genre_and_free_filters) ... ok
+test_author_filter_returns_only_matching_books_without_duplicate_copies (library.test_catalog_filters.CatalogAuthorFilterTests.test_author_filter_returns_only_matching_books_without_duplicate_copies) ... ok
+test_login_route_uses_reader_specific_username_label (library.test_login_route.LoginRouteTests.test_login_route_uses_reader_specific_username_label) ... ok
+test_book_creation_dates_use_the_requested_seed_date (library.test_seed_data_dates.SeedDataDateTests.test_book_creation_dates_use_the_requested_seed_date) ... ok
+test_due_reminder_command_is_idempotent (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_due_reminder_command_is_idempotent) ... ok
+test_expiring_hold_releases_copy_to_next_waiting_reader (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_expiring_hold_releases_copy_to_next_waiting_reader) ... ok
+test_overdue_fine_report_is_staff_only_and_filters_period (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_overdue_fine_report_is_staff_only_and_filters_period) ... ok
+test_overdue_fine_report_rejects_reversed_period (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_overdue_fine_report_rejects_reversed_period) ... ok
+test_overdue_loan_cannot_be_renewed (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_overdue_loan_cannot_be_renewed) ... ok
+test_overdue_report_excludes_loans_returned_before_period_end (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_overdue_report_excludes_loans_returned_before_period_end) ... ok
+test_reader_cabinet_displays_reservations_and_notifications (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_reader_cabinet_displays_reservations_and_notifications) ... ok
+test_reader_can_create_reservation_when_no_copy_is_available (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_reader_can_create_reservation_when_no_copy_is_available) ... ok
+test_renewal_is_allowed_once_and_uses_configured_term (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_renewal_is_allowed_once_and_uses_configured_term) ... ok
+test_renewal_is_blocked_by_another_readers_reservation (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_renewal_is_blocked_by_another_readers_reservation) ... ok
+test_renewal_limit_uses_library_setting (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_renewal_limit_uses_library_setting) ... ok
+test_return_assigns_copy_to_oldest_reservation_and_notifies_reader (library.tests_reader_workflows_fr17_fr21.ReaderWorkflowTests.test_return_assigns_copy_to_oldest_reservation_and_notifies_reader) ... ok
+test_issue_default_period_matches_tc50 (library.tests_staff_workflows.StaffWorkflowTests.test_issue_default_period_matches_tc50) ... ok
+test_issue_rejects_blocked_reader_and_non_stock_copy (library.tests_staff_workflows.StaffWorkflowTests.test_issue_rejects_blocked_reader_and_non_stock_copy) ... ok
+test_issue_rejects_unflagged_reader_with_open_overdue_loan (library.tests_staff_workflows.StaffWorkflowTests.test_issue_rejects_unflagged_reader_with_open_overdue_loan) ... ok
+test_issue_shows_amount_for_unpaid_fine_even_without_block_flag (library.tests_staff_workflows.StaffWorkflowTests.test_issue_shows_amount_for_unpaid_fine_even_without_block_flag) ... ok
+test_issue_uses_configured_loan_period (library.tests_staff_workflows.StaffWorkflowTests.test_issue_uses_configured_loan_period) ... ok
+test_on_time_return_matches_tc54 (library.tests_staff_workflows.StaffWorkflowTests.test_on_time_return_matches_tc54) ... ok
+test_overdue_return_creates_fine_and_payment_clears_workflow_block (library.tests_staff_workflows.StaffWorkflowTests.test_overdue_return_creates_fine_and_payment_clears_workflow_block) ... ok
+test_reader_search_and_registration (library.tests_staff_workflows.StaffWorkflowTests.test_reader_search_and_registration) ... ok
+test_return_assigns_queue_reservation_and_issue_fulfills_it (library.tests_staff_workflows.StaffWorkflowTests.test_return_assigns_queue_reservation_and_issue_fulfills_it) ... ok
+test_settings_can_be_updated (library.tests_staff_workflows.StaffWorkflowTests.test_settings_can_be_updated) ... ok
+test_staff_routes_deny_users_without_librarian_role (library.tests_staff_workflows.StaffWorkflowTests.test_staff_routes_deny_users_without_librarian_role) ... ok
+test_staff_settings_are_admin_only_and_admin_can_create_staff_account (library.tests_staff_workflows.StaffWorkflowTests.test_staff_settings_are_admin_only_and_admin_can_create_staff_account) ... ok
+test_secret_key_is_not_committed_as_a_literal (library.test_security_settings.SecuritySettingsTests.test_secret_key_is_not_committed_as_a_literal) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 19.430s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

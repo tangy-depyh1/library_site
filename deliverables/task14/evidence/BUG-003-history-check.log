@@ -1,0 +1,4 @@
+NFR-08 sanitized history check
+593d4fe~: hard_coded_secret_literal=True (value intentionally omitted)
+HEAD: hard_coded_secret_literal=False (environment variable / generated fallback)
+Conclusion: current settings fixed; repository history still violates NFR-08 until rotation and history remediation.

@@ -1,0 +1,4 @@
+Chrome 150.0.7871.250; isolated seed database; 20 issue + 20 return POST operations; all final HTTP responses 200.
+Issue mean 25.46 ms; p95 59.00 ms; max 87.10 ms.
+Return mean 25.20 ms; p95 23.70 ms; max 154.30 ms.
+All 40 operations <= 1000 ms: true.

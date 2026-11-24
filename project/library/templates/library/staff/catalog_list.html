@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+<p><a class="btn btn-primary" href="{% url add_url_name %}">Добавить</a></p>
+<form method="get">
+    <label for="catalog-search">Поиск</label>
+    <input id="catalog-search" type="search" name="q" value="{{ query }}">
+    <button type="submit">Найти</button>
+</form>
+{% if objects %}
+<table>
+    <thead><tr><th>Запись</th><th>Действия</th></tr></thead>
+    <tbody>
+    {% for object in objects %}
+    <tr>
+        <td>{{ object }}</td>
+        <td>
+            <a href="{% url edit_url_name object.pk %}">Изменить</a>
+            <a href="{% url delete_url_name object.pk %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Записей пока нет.</p>
+{% endif %}
+<p><a href="{% url 'staff_catalog' %}">К каталогу</a></p>
+{% endblock %}

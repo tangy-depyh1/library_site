@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Рабочее место библиотекаря{% endblock %}
+{% block content %}
+<h1>Рабочее место библиотекаря</h1>
+<nav aria-label="Рабочие разделы">
+    <ul>
+        <li><a href="{% url 'staff_readers' %}">Читатели ({{ readers_count }})</a></li>
+        <li><a href="{% url 'staff_catalog' %}">Управление каталогом</a></li>
+        <li><a href="{% url 'staff_issue' %}">Выдать книгу</a></li>
+        <li><a href="{% url 'staff_return' %}">Принять возврат</a></li>
+        <li><a href="{% url 'staff_reservations' %}">Очередь бронирования</a></li>
+        <li><a href="{% url 'reader_workflow_report' %}">Отчёт по просрочкам и штрафам</a></li>
+        <li><a href="{% url 'staff_fines' %}">Штрафы (неоплаченных: {{ unpaid_fines_count }})</a></li>
+        {% if request.user.staff_profile.role == "admin" %}
+        <li><a href="{% url 'staff_settings' %}">Настройки библиотеки</a></li>
+        <li><a href="{% url 'staff_accounts' %}">Учётные записи сотрудников</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<h2>Открытые выдачи</h2>
+{% if open_loans %}
+<ul>
+    {% for loan in open_loans %}
+    <li>{{ loan.copy.inventory_number }} — {{ loan.copy.book.title }}; {{ loan.reader.full_name }};
+        срок: {{ loan.due_date|date:"d.m.Y" }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Открытых выдач нет.</p>
+{% endif %}
+{% endblock %}

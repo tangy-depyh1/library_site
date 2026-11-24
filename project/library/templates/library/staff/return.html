@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Возврат книги{% endblock %}
+{% block content %}
+<h1>Принять возврат</h1>
+<p>Введите инвентарный номер выданного экземпляра и выберите его состояние.</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="form-field">
+        {{ field.label_tag }} {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Зарегистрировать возврат</button>
+</form>
+{% endblock %}

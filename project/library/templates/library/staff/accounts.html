@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Учётные записи сотрудников{% endblock %}
+{% block content %}
+<h1>Учётные записи сотрудников</h1>
+<section class="panel">
+    <h2>Добавить сотрудника</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }} {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Создать учётную запись</button>
+    </form>
+</section>
+<section class="panel">
+    <h2>Сотрудники</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Логин</th><th>ФИО</th><th>Роль</th><th>Должность</th></tr></thead>
+            <tbody>
+            {% for staff in staff_accounts %}
+                <tr>
+                    <td>{{ staff.user.username }}</td>
+                    <td>{{ staff.full_name }}</td>
+                    <td>{{ staff.get_role_display }}</td>
+                    <td>{{ staff.position|default:"—" }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">Учётных записей сотрудников нет.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<p><a href="{% url 'staff_dashboard' %}">К рабочему месту</a></p>
+{% endblock %}

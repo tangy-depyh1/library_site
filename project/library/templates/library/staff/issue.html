@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Выдача книги{% endblock %}
+{% block content %}
+<h1>Выдать книгу</h1>
+<p>Укажите номер читательского билета и инвентарный номер экземпляра из фонда.</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="form-field">
+        {{ field.label_tag }} {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Оформить выдачу</button>
+</form>
+{% endblock %}

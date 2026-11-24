@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Штрафы{% endblock %}
+{% block content %}
+<h1>Штрафы</h1>
+<form method="get">
+    <label for="fine-status">Статус</label>
+    <select id="fine-status" name="status">
+        <option value="">Все</option>
+        {% for value, label in status_choices %}
+        <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Показать</button>
+</form>
+{% if fines %}
+<table>
+    <thead><tr><th>Читатель</th><th>Книга / экземпляр</th><th>Дни</th><th>Ставка</th><th>Сумма</th><th>Статус</th><th>Оплата</th></tr></thead>
+    <tbody>
+    {% for fine in fines %}
+    <tr>
+        <td>{{ fine.loan.reader.full_name }} ({{ fine.loan.reader.card_number }})</td>
+        <td>{{ fine.loan.copy.book.title }} / {{ fine.loan.copy.inventory_number }}</td>
+        <td>{{ fine.days_overdue }}</td><td>{{ fine.rate_per_day }} руб.</td><td>{{ fine.amount }} руб.</td>
+        <td>{{ fine.get_status_display }}</td>
+        <td>
+            {% if fine.status == "unpaid" %}
+            <form method="post" action="{% url 'staff_fine_pay' fine.pk %}">
+                {% csrf_token %}<button type="submit">Принять оплату</button>
+            </form>
+            {% else %}{{ fine.paid_at|date:"d.m.Y" }}{% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Штрафов не найдено.</p>
+{% endif %}
+{% endblock %}

@@ -2,7 +2,8 @@
 {% block title %}Личный кабинет — Библиотека колледжа{% endblock %}
 {% block content %}
 <h1>Личный кабинет</h1>
-<p><a href="{% url 'profile' %}">Изменить контакты</a> · <a href="{% url 'favorites' %}">Избранное</a></p>
+<p><a href="{% url 'profile' %}">Изменить контакты</a> · <a href="{% url 'favorites' %}">Избранное</a> ·
+  <a href="{% url 'reader_workflow_cabinet' %}">Бронирования и уведомления</a></p>
 <p class="meta">{{ reader.full_name }}, билет {{ reader.card_number }}</p>
 {% if reader.is_blocked %}
   <div class="alert alert-error" role="alert"><strong>Выдача заблокирована.</strong> {{ reader.block_reason }}</div>
@@ -25,6 +26,11 @@
             <td data-label="Статус">
               {% if loan.due_date < today %}<span class="badge badge-error">Просрочена {{ loan.overdue_days }} дн.</span>
               {% else %}<span class="badge badge-success">В срок</span>{% endif %}
+              {% if loan.due_date >= today and not loan.renewals.exists %}
+              <form method="post" action="{% url 'reader_workflow_renew' loan.pk %}">
+                {% csrf_token %}<button class="btn btn-secondary" type="submit">Продлить</button>
+              </form>
+              {% endif %}
             </td>
           </tr>
         {% empty %}

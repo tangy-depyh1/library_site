@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Очередь бронирования{% endblock %}
+{% block content %}
+<h1>Очередь бронирования</h1>
+{% if reservations %}
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr><th>Книга</th><th>Читатель</th><th>Статус</th><th>Экземпляр</th><th>Забрать до</th><th>Действие</th></tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.book.title }}</td>
+                <td>{{ reservation.reader.full_name }} ({{ reservation.reader.card_number }})</td>
+                <td>{{ reservation.get_status_display }}</td>
+                <td>{{ reservation.assigned_copy.inventory_number|default:"—" }}</td>
+                <td>{{ reservation.hold_until|date:"d.m.Y"|default:"—" }}</td>
+                <td>
+                    {% if reservation.status == "ready" %}
+                    <form method="get" action="{% url 'staff_issue' %}">
+                        <input type="hidden" name="card_number" value="{{ reservation.reader.card_number }}">
+                        <input type="hidden" name="inventory_number" value="{{ reservation.assigned_copy.inventory_number }}">
+                        <button class="btn btn-primary" type="submit">Выдать по заявке</button>
+                    </form>
+                    {% else %}Ожидает экземпляр{% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>Активных заявок нет.</p>
+{% endif %}
+<p><a href="{% url 'staff_dashboard' %}">К рабочему месту</a></p>
+{% endblock %}

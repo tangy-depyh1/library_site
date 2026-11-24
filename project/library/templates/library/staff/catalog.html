@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Управление каталогом{% endblock %}
+{% block content %}
+<h1>Управление каталогом</h1>
+<ul>
+    <li><a href="{% url 'staff_books' %}">Книги ({{ book_count }})</a></li>
+    <li><a href="{% url 'staff_authors' %}">Авторы ({{ author_count }})</a></li>
+    <li><a href="{% url 'staff_genres' %}">Жанры ({{ genre_count }})</a></li>
+    <li><a href="{% url 'staff_copies' %}">Экземпляры ({{ copy_count }})</a></li>
+</ul>
+<p><a href="{% url 'staff_dashboard' %}">К рабочему месту</a></p>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Отчёт о просрочках и штрафах{% endblock %}
+{% block content %}
+<h1>Просрочки и штрафы</h1>
+<p class="meta">{{ staff.full_name }} · {{ staff.get_role_display }}</p>
+<form method="get" class="panel">
+  {% for field in form %}
+    <div class="field">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% for error in field.errors %}<p class="meta">{{ error }}</p>{% endfor %}
+    </div>
+  {% endfor %}
+  {% for error in form.non_field_errors %}<p class="meta">{{ error }}</p>{% endfor %}
+  <button class="btn btn-primary" type="submit">Сформировать</button>
+</form>
+
+{% if form.is_valid %}
+<section class="panel">
+  <h2>Просроченные выдачи</h2>
+  <p>Просроченных выдач: {{ overdue_count }}</p>
+  <div class="table-wrap">
+    <table class="stack">
+      <thead><tr><th>Читатель</th><th>Книга</th><th>Срок возврата</th><th>Просрочка на конец периода</th></tr></thead>
+      <tbody>
+      {% for loan in overdue_loans %}
+        <tr>
+          <td data-label="Читатель">{{ loan.reader.full_name }}</td>
+          <td data-label="Книга">{{ loan.copy.book.title }}</td>
+          <td data-label="Срок возврата">{{ loan.due_date|date:"d.m.Y" }}</td>
+          <td data-label="Просрочка">{{ loan.report_overdue_days }} дн.</td>
+        </tr>
+      {% empty %}<tr><td colspan="4">Просроченных выдач за период нет.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Начисленные штрафы</h2>
+  <p>Всего: {{ fine_totals.all|floatformat:2 }} руб. · оплачено: {{ fine_totals.paid|floatformat:2 }} руб. ·
+    не оплачено: {{ fine_totals.unpaid|floatformat:2 }} руб.</p>
+  {% for fine in fines %}
+    <p>{{ fine.accrued_at|date:"d.m.Y" }} · {{ fine.loan.reader.full_name }} ·
+      {{ fine.loan.copy.book.title }} · {{ fine.amount|floatformat:2 }} руб. · {{ fine.get_status_display }}</p>
+  {% empty %}<p>Штрафов в выбранном периоде нет.</p>{% endfor %}
+</section>
+{% endif %}
+{% endblock %}

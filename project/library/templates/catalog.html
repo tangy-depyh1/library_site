@@ -23,6 +23,15 @@
           {% endfor %}
         </select>
       </div>
+      <div class="field">
+        <label for="author">Автор</label>
+        <select class="select" id="author" name="author">
+          <option value="">Все авторы</option>
+          {% for a in authors %}
+            <option value="{{ a.pk }}"{% if author == a.pk|stringformat:"s" %} selected{% endif %}>{{ a.last_name }} {{ a.first_name }}{% if a.middle_name %} {{ a.middle_name }}{% endif %}</option>
+          {% endfor %}
+        </select>
+      </div>
       <label class="check"><input type="checkbox" name="free" value="1"{% if only_free %} checked{% endif %}>Только свободные</label>
       <button class="btn btn-primary" type="submit">Применить</button>
     </form>

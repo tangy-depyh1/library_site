@@ -3,7 +3,7 @@ from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from .models import Book, BookAuthor, Genre,Fine, Reservation, Favorite
+from .models import Author, Book, BookAuthor, Genre, Fine, Reservation, Favorite
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -70,13 +70,23 @@ def home(request):
 def catalog(request):
     qs = books_qs()
     genre = request.GET.get("genre", "")
+    author = request.GET.get("author", "")
     only_free = request.GET.get("free") == "1"
     if genre.isdigit():
         qs = qs.filter(genre_id=int(genre))
+    if author.isdigit():
+        qs = qs.filter(pk__in=BookAuthor.objects.filter(author_id=int(author)).values("book_id"))
     if only_free:
         qs = qs.filter(free__gt=0)
     page = Paginator(qs.order_by("title"), 20).get_page(request.GET.get("page"))
-    context = {"page": page, "genres": Genre.objects.all(), "genre": genre, "only_free": only_free}
+    context = {
+        "page": page,
+        "genres": Genre.objects.all(),
+        "authors": Author.objects.all(),
+        "genre": genre,
+        "author": author,
+        "only_free": only_free,
+    }
     return render(request, "catalog.html", context)
 
 def book_detail(request, pk):

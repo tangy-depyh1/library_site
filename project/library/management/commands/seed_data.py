@@ -48,9 +48,10 @@ class Command(BaseCommand):
         for key, model in (("genre", m.Genre), ("author", m.Author)):
             model.objects.bulk_create([model(**r) for r in T[key]])
         books = [m.Book(**r) for r in T["book"]]
+        book_created_at = [aware(book.created_at) for book in books]
         m.Book.objects.bulk_create(books)
-        for b in books:  # auto_now_add игнорирует переданное значение, поэтому ставим дату отдельно
-            b.created_at = aware(b.created_at)
+        for b, created_at in zip(books, book_created_at):
+            b.created_at = created_at
         m.Book.objects.bulk_update(books, ["created_at"])
         m.BookAuthor.objects.bulk_create([m.BookAuthor(**r) for r in T["bookauthor"]])
         m.Copy.objects.bulk_create([m.Copy(**r) for r in T["copy"]])

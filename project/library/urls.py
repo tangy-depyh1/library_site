@@ -13,7 +13,6 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("contacts/", views.contacts, name="contacts"),
     path("rules/", TemplateView.as_view(template_name="rules.html"), name="rules"),
-    path("login/", auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("cabinet/", views.cabinet, name="cabinet"),
     path("cabinet/favorites/", views.favorites, name="favorites"),

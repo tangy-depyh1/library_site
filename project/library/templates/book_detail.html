@@ -22,7 +22,7 @@
       <dt>Страниц</dt>
       <dd>{{ book.pages|default:"—" }}</dd>
       <dt>ISBN</dt>
-      <dd>{{ book.isbn|default:"—" }}</dd>
+      <dd>{{ book.isbn|default:"—"|cut:"-" }}</dd>
       <dt>Добавлена в каталог</dt>
       <dd>{{ book.created_at|date:"d.m.Y" }}</dd>
     </dl>

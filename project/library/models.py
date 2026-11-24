@@ -40,8 +40,14 @@ class Author(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=["last_name", "first_name", "middle_name", "birth_year"],
-                name="unique_author",
-                nulls_distinct=False),
+                condition=Q(birth_year__isnull=False),
+                name="unique_author_with_birth_year",
+            ),
+            models.UniqueConstraint(
+                fields=["last_name", "first_name", "middle_name"],
+                condition=Q(birth_year__isnull=True),
+                name="unique_author_without_birth_year",
+            ),
         ]
 
     @property

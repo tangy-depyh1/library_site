@@ -300,7 +300,10 @@ class ReaderWorkflowTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Дата начала позже даты окончания.")
+        self.assertContains(
+            response,
+            "Дата окончания не может быть раньше даты начала. Укажите корректный период.",
+        )
         self.assertNotContains(response, "Просроченных выдач:")
 
     def test_due_reminder_command_is_idempotent(self):

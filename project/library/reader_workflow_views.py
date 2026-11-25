@@ -4,14 +4,15 @@ from decimal import Decimal
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
 from django.db.models import Q, Sum
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
+from .forms import StyledFormMixin
 from .models import (
     Book,
     Copy,
@@ -37,9 +38,8 @@ def _staff_for(request):
     return None
 
 
-def _reader_required_response(request):
-    messages.error(request, "Эта операция доступна только зарегистрированным читателям.")
-    return render(request, "cabinet_no_reader.html", status=403)
+def _raise_reader_permission_denied():
+    raise PermissionDenied("Эта операция доступна только зарегистрированным читателям.")
 
 
 def _notify_reservation_ready(reservation):
@@ -91,7 +91,7 @@ def assign_oldest_active_reservation(copy, today=None):
 def reader_workflow_cabinet(request):
     reader = _reader_for(request)
     if reader is None:
-        return _reader_required_response(request)
+        _raise_reader_permission_denied()
     context = {
         "reader": reader,
         "reservations": reader.reservations.select_related(
@@ -108,7 +108,7 @@ def reader_workflow_cabinet(request):
 def create_reservation(request, book_id):
     reader = _reader_for(request)
     if reader is None:
-        return _reader_required_response(request)
+        _raise_reader_permission_denied()
 
     try:
         with transaction.atomic():
@@ -148,7 +148,7 @@ def create_reservation(request, book_id):
 def cancel_reservation(request, reservation_id):
     reader = _reader_for(request)
     if reader is None:
-        return _reader_required_response(request)
+        _raise_reader_permission_denied()
 
     copy_id = Reservation.objects.filter(
         pk=reservation_id, reader=reader
@@ -197,7 +197,7 @@ def cancel_reservation(request, reservation_id):
 def return_copy(request, copy_id):
     staff = _staff_for(request)
     if staff is None:
-        return HttpResponseForbidden("Операция доступна только сотрудникам библиотеки.")
+        raise PermissionDenied("Операция доступна только сотрудникам библиотеки.")
 
     condition = request.POST.get("condition", Copy.Condition.GOOD)
     if condition not in Copy.Condition.values:
@@ -307,7 +307,7 @@ def expire_ready_reservations(today=None):
 def renew_loan(request, loan_id):
     reader = _reader_for(request)
     if reader is None:
-        return _reader_required_response(request)
+        _raise_reader_permission_denied()
 
     today = timezone.localdate()
     settings = LibrarySettings.get()
@@ -354,13 +354,15 @@ def renew_loan(request, loan_id):
     return redirect("reader_workflow_cabinet")
 
 
-class ReportRangeForm(forms.Form):
+class ReportRangeForm(StyledFormMixin, forms.Form):
     start_date = forms.DateField(
         label="С даты",
+        help_text="Выберите первый день периода.",
         widget=forms.DateInput(attrs={"type": "date"}),
     )
     end_date = forms.DateField(
         label="По дату",
+        help_text="Выберите последний день периода.",
         widget=forms.DateInput(attrs={"type": "date"}),
     )
 
@@ -369,14 +371,17 @@ class ReportRangeForm(forms.Form):
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
         if start_date and end_date and start_date > end_date:
-            raise forms.ValidationError("Дата начала позже даты окончания.")
+            self.add_error(
+                "end_date",
+                "Дата окончания не может быть раньше даты начала. Укажите корректный период.",
+            )
         return cleaned_data
 
 
 @login_required
 def overdue_fines_report(request):
     if _staff_for(request) is None:
-        return HttpResponseForbidden("Отчёт доступен только сотрудникам библиотеки.")
+        raise PermissionDenied("Отчёт доступен только сотрудникам библиотеки.")
 
     today = timezone.localdate()
     initial = {"start_date": today.replace(day=1), "end_date": today}

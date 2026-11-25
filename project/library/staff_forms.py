@@ -12,6 +12,7 @@ from .models import (
     Reader,
     Staff,
 )
+from .forms import StyledFormMixin
 
 class StaffAccountCreationForm(UserCreationForm):
     full_name = forms.CharField(label="ФИО", max_length=150)
@@ -34,10 +35,15 @@ class StaffAccountCreationForm(UserCreationForm):
         return user
 
 
-class ReaderRegistrationForm(forms.ModelForm):
+class ReaderRegistrationForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Reader
         fields = ["card_number", "full_name", "group_name", "phone", "email"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["card_number"].help_text = "Введите ровно 6 цифр без пробелов."
+        self.fields["full_name"].help_text = "Укажите фамилию, имя и отчество."
 
 
 class IssueLoanForm(forms.Form):

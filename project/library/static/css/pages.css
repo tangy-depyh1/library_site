@@ -16,12 +16,16 @@
 .tile { flex: 1 1 200px; padding: var(--space-4) var(--space-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
 .tile strong { display: block; font-family: Lora, Georgia, serif; font-size: 32px; line-height: 40px; }
 .auth-box { max-width: 480px; margin: var(--space-8) auto; }
+.error-page { max-width: 720px; margin: var(--space-8) auto; text-align: center; }
+.error-page__code { color: var(--primary); font: 700 48px/1.1 Lora, Georgia, serif; margin: 0 0 var(--space-3); }
+.error-page__actions { justify-content: center; }
 @media (max-width: 767px) {
   .hero { padding: 28px 20px; margin-bottom: var(--space-6); border-radius: var(--radius-lg); }
   .search-form { flex-direction: column; }
   .steps { grid-template-columns: 1fr; }
   .kv { grid-template-columns: 120px 1fr; }
   .tile strong { font-size: 26px; line-height: 32px; }
+  .error-page__code { font-size: 40px; }
 }
 .search-form--page { max-width: none; margin: 0 0 var(--space-6); }
 .search-form--page .input { border: 1px solid var(--border-strong); }

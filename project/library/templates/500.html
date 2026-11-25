@@ -1,0 +1,13 @@
+{% extends "error_base.html" %}
+{% block title %}Ошибка сервера — Библиотека колледжа{% endblock %}
+{% block content %}
+<section class="panel error-page">
+    <p class="error-page__code">500</p>
+    <h1>Не удалось выполнить запрос</h1>
+    <p>Произошла внутренняя ошибка. Подробности записаны в журнал; попробуйте ещё раз позже.</p>
+    <div class="actions error-page__actions">
+        <a class="btn btn-primary" href="{% url 'home' %}">На главную</a>
+        <a class="btn btn-secondary" href="{% url 'search' %}">Перейти к поиску</a>
+    </div>
+</section>
+{% endblock %}

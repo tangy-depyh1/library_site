@@ -4,11 +4,10 @@ from functools import wraps
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
 from django.db.models import Q, Sum
 from django.db.models.deletion import ProtectedError
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
 from django.utils import timezone
@@ -48,9 +47,9 @@ def librarian_required(view_func):
         try:
             profile = request.user.staff_profile
         except (AttributeError, ObjectDoesNotExist):
-            return HttpResponseForbidden("Доступ разрешён только библиотекарям.")
+            raise PermissionDenied("Доступ разрешён только библиотекарям.")
         if profile.role != Staff.Role.LIBRARIAN:
-            return HttpResponseForbidden("Доступ разрешён только библиотекарям.")
+            raise PermissionDenied("Доступ разрешён только библиотекарям.")
         return view_func(request, *args, **kwargs)
 
     return wrapped
@@ -64,9 +63,9 @@ def administrator_required(view_func):
         try:
             profile = request.user.staff_profile
         except (AttributeError, ObjectDoesNotExist):
-            return HttpResponseForbidden("Доступ разрешён только администраторам.")
+            raise PermissionDenied("Доступ разрешён только администраторам.")
         if profile.role != Staff.Role.ADMIN:
-            return HttpResponseForbidden("Доступ разрешён только администраторам.")
+            raise PermissionDenied("Доступ разрешён только администраторам.")
         return view_func(request, *args, **kwargs)
 
     return wrapped

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Библиотека колледжа{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-row">
+            <a class="logo" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.svg' %}" alt="" width="36" height="36">
+                <span>Библиотека колледжа</span>
+            </a>
+            <nav class="nav" aria-label="Основное меню">
+                <a href="{% url 'catalog' %}">Каталог</a>
+                <a href="{% url 'contacts' %}">Контакты</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="container footer-row">
+            <p>Библиотека колледжа. Читальный зал и абонемент.</p>
+            <p>Пн–Пт 8:00–18:00</p>
+        </div>
+    </footer>
+</body>
+</html>

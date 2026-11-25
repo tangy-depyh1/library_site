@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
@@ -108,7 +109,7 @@ def search(request):
 def cabinet(request):
     reader = getattr(request.user, "reader_profile", None)
     if reader is None:
-        return render(request, "cabinet_no_reader.html", status=403)
+        raise PermissionDenied("Личный кабинет доступен только читателям.")
     loans = reader.loans.select_related("copy__book")
     context = {
         "reader": reader,
@@ -141,7 +142,7 @@ def contacts(request):
 def profile(request):
     reader = getattr(request.user, "reader_profile", None)
     if reader is None:
-        return render(request, "cabinet_no_reader.html", status=403)
+        raise PermissionDenied("Профиль доступен только читателям.")
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=reader)
         if form.is_valid():
@@ -179,7 +180,7 @@ def favorite_toggle(request, pk):
 def favorites(request):
     reader = getattr(request.user, "reader_profile", None)
     if reader is None:
-        return render(request, "cabinet_no_reader.html", status=403)
+        raise PermissionDenied("Избранное доступно только читателям.")
     qs = books_qs().filter(pk__in=reader.favorites.values("book_id")).order_by("title")
     return render(request, "favorites.html", {"books": qs})
     

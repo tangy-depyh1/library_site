@@ -1,0 +1,13 @@
+{% extends "error_base.html" %}
+{% block title %}Доступ запрещён — Библиотека колледжа{% endblock %}
+{% block content %}
+<section class="panel error-page">
+    <p class="error-page__code">403</p>
+    <h1>Доступ запрещён</h1>
+    <p>У вашей учётной записи нет прав для этой страницы или действия.</p>
+    <div class="actions error-page__actions">
+        <a class="btn btn-primary" href="{% url 'home' %}">На главную</a>
+        <a class="btn btn-secondary" href="{% url 'search' %}">Перейти к поиску</a>
+    </div>
+</section>
+{% endblock %}

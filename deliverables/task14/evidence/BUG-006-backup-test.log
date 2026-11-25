@@ -1,1 +1,0 @@
-test_backup_is_valid_and_rotation_keeps_seven passed. Command creates a valid SQLite backup and keeps seven. No daily scheduler or restore test was performed.

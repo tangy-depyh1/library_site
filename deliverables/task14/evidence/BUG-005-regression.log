@@ -1,1 +1,0 @@
-SQLite permits multiple NULLs in an ordinary UNIQUE constraint. Focused partial unique index/test now rejects duplicate authors with NULL birth_year.

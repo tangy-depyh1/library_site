@@ -1,2 +1,0 @@
-TC-68 first run (recorded before report correction): 50 rows; expected 13.
-Retest after correction: HTTP 200; reported overdue count 13; overdue-day rows 13; expected 13; matches=true.
